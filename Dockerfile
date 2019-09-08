@@ -1,6 +1,6 @@
 ARG PHP_BASE_VERSION=08eaa1f
 
-FROM 038855593698.dkr.ecr.eu-west-1.amazonaws.com/php-prod:$PHP_BASE_VERSION as api-prod
+FROM 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-php-prod:$PHP_BASE_VERSION as api-prod
 
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
@@ -25,7 +25,7 @@ RUN set -eux; \
 
 CMD ["php-fpm"]
 
-FROM 038855593698.dkr.ecr.eu-west-1.amazonaws.com/php-dev:$PHP_BASE_VERSION as api-test
+FROM 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-php-dev:$PHP_BASE_VERSION as api-test
 
 ENV APP_ENV=test
 ENV APP_DEBUG=1
