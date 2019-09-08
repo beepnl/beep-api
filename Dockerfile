@@ -1,4 +1,4 @@
-ARG PHP_BASE_VERSION=08eaa1f
+ARG PHP_BASE_VERSION=b1e31c2
 
 FROM 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-php-prod:$PHP_BASE_VERSION as api-prod
 
