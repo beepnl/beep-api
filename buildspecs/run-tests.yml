@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+    commands:
+      - yum install jq -q -y
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  build:
+    commands:
+      - echo Tests started on `date`
+      - ls -lha
+      - TEST_IMAGE_URI=$(jq -r '.ImageURI' $CODEBUILD_SRC_DIR_TestImageArtifact/imageDetail.json)
+      - docker run -i $TEST_IMAGE_URI php bin/phpunit
+  post_build:
+    commands:
+      - echo Build completed on `date`
