@@ -1,0 +1,13 @@
+api_platform:
+    title: Beep
+    version: 0.1.0
+    formats:
+        jsonld:   ['application/ld+json']
+        jsonhal:  ['application/hal+json']
+        jsonapi:  ['application/vnd.api+json']
+        json:     ['application/json']
+        html:     ['text/html']
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+
+
