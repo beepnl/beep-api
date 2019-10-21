@@ -8,7 +8,12 @@ doctrine:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
 
-        url: '%env(resolve:DATABASE_URL)%'
+        host: '%env(string:key:host:json:DATABASE_CREDENTIALS)%'
+        dbname: '%env(string:key:dbname:json:DATABASE_CREDENTIALS)%'
+        port: '%env(string:key:port:json:DATABASE_CREDENTIALS)%'
+        user: '%env(string:key:username:json:DATABASE_CREDENTIALS)%'
+        password: '%env(string:key:password:json:DATABASE_CREDENTIALS)%'
+
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
