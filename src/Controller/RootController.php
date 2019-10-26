@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\UniversallyIdentifiableInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,13 +31,18 @@ class RootController
         $this->em = $em;
     }
 
-
     /**
      * @Route("/headers", methods={"GET"})
+     * @param UserInterface|null $user
+     * @return Response
      */
-    public function index(Request $request, UserInterface $user)
+    public function index(UserInterface $user = null)
     {
-        $username = $user->getUsername();
-        return new Response($username);
+        if ($user instanceof UniversallyIdentifiableInterface) {
+            $content = $user->getId();
+        } else {
+            $content = 'No user id available.';
+        }
+        return new Response($content);
     }
 }

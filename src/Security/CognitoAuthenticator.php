@@ -6,6 +6,8 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,12 +31,16 @@ class CognitoAuthenticator extends AbstractGuardAuthenticator
 
     private $cognitoJwks;
 
+    const AUTHORIZATION_HEADER_NAME = 'Authorization';
+    const AUTHORIZATION_HEADER_VALUE_PREFIX = 'Bearer';
+
     /**
      * CognitoAuthenticator constructor.
      * @param EntityManagerInterface $entityManager
      * @param JsonWebKeySet $cognitoJwks
+     * @param UuidInterface|null $id
      */
-    public function __construct(EntityManagerInterface $entityManager, JsonWebKeySet $cognitoJwks)
+    public function __construct(EntityManagerInterface $entityManager, JsonWebKeySet $cognitoJwks, UuidInterface $id = null)
     {
         $this->entityManager = $entityManager;
         $this->cognitoJwks = $cognitoJwks;
@@ -52,7 +58,11 @@ class CognitoAuthenticator extends AbstractGuardAuthenticator
 
     public function getCredentials(Request $request)
     {
-        $token = trim(explode(' ', $request->headers->get('Authorization'), 2)[1]);
+        $token = $this->extractToken($request);
+
+        if (!$token) {
+            return null;
+        }
 
         return [
             'token' => $token
@@ -65,8 +75,14 @@ class CognitoAuthenticator extends AbstractGuardAuthenticator
 
         try {
             $token = JWT::decode($token, $this->cognitoJwks->getKeys(), ['RS256']);
-            $username = $token->username;
-            return $this->entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
+            $subject = $token->sub;
+            $id = Uuid::fromString($subject);
+            $user = $this->entityManager->getRepository(User::class)->find($id);
+            if (!$user) {
+                $user = $this->createAndPersistUserAccount($id);
+            }
+
+            return $user;
         } catch (\Exception $e) {
             throw new AuthenticationException($e->getMessage());
         }
@@ -94,5 +110,30 @@ class CognitoAuthenticator extends AbstractGuardAuthenticator
     public function supportsRememberMe()
     {
         return false;
+    }
+
+    private function extractToken(Request $request)
+    {
+        if (!$request->headers->has(static::AUTHORIZATION_HEADER_NAME)) {
+            return false;
+        }
+
+        $authorizationHeader = $request->headers->get('Authorization');
+        $pieces = explode(' ', $authorizationHeader);
+
+        if (!(2 === count($pieces) && 0 === strcasecmp($pieces[0], static::AUTHORIZATION_HEADER_VALUE_PREFIX))) {
+            return false;
+        }
+
+        return $pieces[1];
+    }
+
+    private function createAndPersistUserAccount(UuidInterface $id)
+    {
+        $user = new User($id);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
     }
 }

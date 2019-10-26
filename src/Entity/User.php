@@ -13,36 +13,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Entity
  */
-class User implements UserInterface
+class User implements UserInterface, UniversallyIdentifiableInterface
 {
-    /**
-     * @var UuidInterface
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=false)
-     */
-    private $username;
+    use IdentifiableTrait;
 
     /**
      * User constructor.
-     * @param $username
+     * @param UuidInterface $id
      */
-    public function __construct($username)
+    public function __construct(UuidInterface $id = null)
     {
-        $this->username = $username;
-    }
-
-    public function getId()
-    {
-        return $this->id;
+        $this->id = $id;
     }
 
     public function getRoles()
@@ -62,7 +43,7 @@ class User implements UserInterface
 
     public function getUsername()
     {
-        return $this->username;
+        return $this->id;
     }
 
     public function eraseCredentials()
