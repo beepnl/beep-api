@@ -61,6 +61,19 @@
     "doctrine/doctrine-cache-bundle": {
         "version": "1.3.5"
     },
+    "doctrine/doctrine-migrations-bundle": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.2",
+            "ref": "c1431086fec31f17fbcfe6d6d7e92059458facc1"
+        },
+        "files": [
+            "config/packages/doctrine_migrations.yaml",
+            "src/Migrations/.gitignore"
+        ]
+    },
     "doctrine/event-manager": {
         "version": "v1.0.0"
     },
@@ -72,6 +85,9 @@
     },
     "doctrine/lexer": {
         "version": "1.1.0"
+    },
+    "doctrine/migrations": {
+        "version": "2.1.1"
     },
     "doctrine/orm": {
         "version": "v2.6.3"
@@ -102,6 +118,12 @@
         "files": [
             "config/packages/nelmio_cors.yaml"
         ]
+    },
+    "ocramius/package-versions": {
+        "version": "1.5.1"
+    },
+    "ocramius/proxy-manager": {
+        "version": "2.2.3"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -325,6 +347,9 @@
     "symfony/service-contracts": {
         "version": "v1.1.6"
     },
+    "symfony/stopwatch": {
+        "version": "v4.3.5"
+    },
     "symfony/test-pack": {
         "version": "v1.0.6"
     },
@@ -381,5 +406,11 @@
     },
     "willdurand/negotiation": {
         "version": "v2.3.1"
+    },
+    "zendframework/zend-code": {
+        "version": "3.4.0"
+    },
+    "zendframework/zend-eventmanager": {
+        "version": "3.2.1"
     }
 }
