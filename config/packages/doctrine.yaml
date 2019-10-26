@@ -10,7 +10,7 @@ doctrine:
 
         host: '%env(string:key:host:json:DATABASE_CREDENTIALS)%'
         dbname: '%env(string:key:dbname:json:DATABASE_CREDENTIALS)%'
-        port: '%env(string:key:port:json:DATABASE_CREDENTIALS)%'
+        port: '%env(int:key:port:json:DATABASE_CREDENTIALS)%'
         user: '%env(string:key:username:json:DATABASE_CREDENTIALS)%'
         password: '%env(string:key:password:json:DATABASE_CREDENTIALS)%'
 
