@@ -23,6 +23,12 @@ class Apiary
      */
     private $roofed;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account", inversedBy="apiaries")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $account;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +42,18 @@ class Apiary
     public function setRoofed(bool $roofed): self
     {
         $this->roofed = $roofed;
+
+        return $this;
+    }
+
+    public function getAccount(): ?Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?Account $account): self
+    {
+        $this->account = $account;
 
         return $this;
     }
