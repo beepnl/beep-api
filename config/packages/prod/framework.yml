@@ -1,0 +1,4 @@
+framework:
+  assets:
+    base_urls:
+      - 'https://assets.stichtingbeep.nl/'
