@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
  */
-class Account implements UniversallyIdentifiableInterface
+class Account implements IdentifiableInterface
 {
     use IdentifiableTrait;
 

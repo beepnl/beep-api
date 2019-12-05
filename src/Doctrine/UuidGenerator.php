@@ -2,7 +2,7 @@
 
 namespace App\Doctrine;
 
-use App\Entity\UniversallyIdentifiableInterface;
+use App\Entity\IdentifiableInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AbstractIdGenerator;
 use Exception;
@@ -24,7 +24,7 @@ class UuidGenerator extends AbstractIdGenerator
      */
     public function generate(EntityManager $em, $entity)
     {
-        if ($entity instanceof UniversallyIdentifiableInterface && is_null($entity->getId())) {
+        if ($entity instanceof IdentifiableInterface && is_null($entity->getId())) {
             return Uuid::uuid4();
         } else {
             return $entity->getId();

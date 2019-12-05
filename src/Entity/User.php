@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Entity
  */
-class User implements UserInterface, UniversallyIdentifiableInterface
+class User implements UserInterface, IdentifiableInterface
 {
     use IdentifiableTrait;
 

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\UniversallyIdentifiableInterface;
+use App\Entity\IdentifiableInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +45,7 @@ class RootController
      */
     public function index(UserInterface $user = null)
     {
-        if ($user instanceof UniversallyIdentifiableInterface) {
+        if ($user instanceof IdentifiableInterface) {
             $content = $user->getId();
         } else {
             $content = 'No user id available.';

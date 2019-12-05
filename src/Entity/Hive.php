@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HiveRepository")
  */
-class Hive implements UniversallyIdentifiableInterface
+class Hive implements IdentifiableInterface
 {
     use IdentifiableTrait;
 

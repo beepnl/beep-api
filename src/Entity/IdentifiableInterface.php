@@ -2,15 +2,17 @@
 
 namespace App\Entity;
 
+use Ramsey\Uuid\UuidInterface;
+
 /**
- * Interface IdentifiableInterface
+ * Interface UniversallyIdentifiable
  * @package App\Entity
  * @author George van Vliet
  */
 interface IdentifiableInterface
 {
     /**
-     * @return mixed
+     * @return UuidInterface
      */
-    public function getId();
+    public function getId(): UuidInterface;
 }

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ApiaryRepository")
  */
-class Apiary implements UniversallyIdentifiableInterface
+class Apiary implements IdentifiableInterface
 {
     use IdentifiableTrait;
 
