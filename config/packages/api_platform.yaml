@@ -12,9 +12,10 @@ api_platform:
         paths: ['%kernel.project_dir%/src/Entity']
     oauth:
         enabled: true
-        clientId: 9rs7erust7dpubaq9co6kohm1
-        clientSecret: 1cqus192d2g9ed0uqprmmfuhuekk1v38o7cog4g4hvif3amg9529
-        authorizationUrl: https://beep-dev.auth.eu-west-1.amazoncognito.com/oauth2/authorize
-        tokenUrl: https://beep-dev.auth.eu-west-1.amazoncognito.com/oauth2/token
-#        type: oauth2
-#        flow: implicit
+        clientId: '%env(COGNITO_SWAGGER_CLIENT_ID)%'
+        authorizationUrl: '%env(COGNITO_DOMAIN)%/oauth2/authorize'
+        tokenUrl: '%env(COGNITO_DOMAIN)%/oauth2/token'
+        type: oauth2
+        flow: implicit
+        scopes: { 'http://localhost/devices:write': "Allow full management of devices and sensors, such as the Beep base." }
+
