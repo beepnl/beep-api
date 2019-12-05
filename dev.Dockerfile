@@ -13,6 +13,7 @@ COPY bin bin/
 COPY config config/
 COPY public public/
 COPY src src/
+COPY templates templates/
 COPY tests tests/
 COPY .env ./
 COPY .env.test ./

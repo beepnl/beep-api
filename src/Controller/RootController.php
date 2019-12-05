@@ -58,6 +58,6 @@ class RootController
      */
     public function swaggerUiOAuth2Redirect()
     {
-        return new Response($this->twig->render('oauth2Redirect.html.twig'));
+        return new Response($this->twig->render('oauth2_redirect.html.twig'));
     }
 }
