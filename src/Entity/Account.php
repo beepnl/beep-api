@@ -12,14 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
  */
-class Account
+class Account implements UniversallyIdentifiableInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdentifiableTrait;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Apiary", mappedBy="account")
@@ -30,11 +25,6 @@ class Account
     public function __construct()
     {
         $this->apiaries = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

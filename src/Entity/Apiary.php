@@ -9,14 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ApiaryRepository")
  */
-class Apiary
+class Apiary implements UniversallyIdentifiableInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdentifiableTrait;
 
     /**
      * @ORM\Column(type="boolean")
@@ -29,10 +24,6 @@ class Apiary
      */
     private $account;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getRoofed(): ?bool
     {
