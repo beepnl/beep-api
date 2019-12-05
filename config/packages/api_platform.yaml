@@ -17,5 +17,7 @@ api_platform:
         tokenUrl: '%env(COGNITO_DOMAIN)%/oauth2/token'
         type: oauth2
         flow: implicit
-        scopes: { 'http://localhost/devices:write': "Allow full management of devices and sensors, such as the Beep base."}
+        scopes:
+            'http://localhost/devices:write': "Allow full management of devices and sensors, such as the Beep base."
+            'http://localhost/devices:read': "Allow read access to devices and sensors, such as the Beep base."
 

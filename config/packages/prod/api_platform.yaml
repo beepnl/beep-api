@@ -1,0 +1,5 @@
+api_platform:
+  oauth:
+    scopes:
+      'https://api.stichtingbeep.nl/devices:write': "Allow full management of devices and sensors, such as the Beep base."
+      'https://api.stichtingbeep.nl/devices:read': "Allow read access to devices and sensors, such as the Beep base."
