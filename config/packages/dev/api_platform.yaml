@@ -1,0 +1,5 @@
+api_platform:
+  oauth:
+    scopes:
+      'http://localhost/devices:write': "Allow full management of devices and sensors, such as the Beep base."
+      'http://localhost/devices:read': "Allow read access to devices and sensors, such as the Beep base."
