@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\Account;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
@@ -131,7 +132,9 @@ class CognitoAuthenticator extends AbstractGuardAuthenticator
     private function createAndPersistUserAccount(UuidInterface $id)
     {
         $user = new User($id);
+        $account = new Account($user);
         $this->entityManager->persist($user);
+        $this->entityManager->persist($account);
         $this->entityManager->flush();
 
         return $user;

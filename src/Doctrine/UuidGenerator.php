@@ -24,7 +24,12 @@ class UuidGenerator extends AbstractIdGenerator
      */
     public function generate(EntityManager $em, $entity)
     {
-        if ($entity instanceof IdentifiableInterface && is_null($entity->getId())) {
+        $reflection = new \ReflectionClass($entity);
+        $identifier = $reflection->getProperty('id');
+        $identifier->setAccessible(true);
+        $id = $identifier->getValue($entity);
+
+        if (is_null($id)) {
             return Uuid::uuid4();
         } else {
             return $entity->getId();

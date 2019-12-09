@@ -22,13 +22,27 @@ class Account implements IdentifiableInterface
      */
     private $apiaries;
 
-    public function __construct()
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AccountMembership", mappedBy="account", orphanRemoval=true)
+     */
+    private $accountMemberships;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
+    public function __construct(User $owner)
     {
         $this->apiaries = new ArrayCollection();
+        $this->accountMemberships = new ArrayCollection();
+        $this->owner = $owner;
     }
 
     /**
      * @return Collection|Apiary[]
+     * @ApiSubresource
      */
     public function getApiaries(): Collection
     {
@@ -54,6 +68,26 @@ class Account implements IdentifiableInterface
                 $apiary->setAccount(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AccountMembership[]
+     */
+    public function getAccountMemberships(): Collection
+    {
+        return $this->accountMemberships;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }
