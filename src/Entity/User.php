@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class User
@@ -20,11 +21,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @package App\Entity
  * @author George van Vliet
  *
- * @ApiResource
+ * @ApiResource(
+ *     normalizationContext={"groups"={"user:read"}, "swagger_definition_name"="Read"},
+ *     denormalizationContext={"groups"={"user:write"}, "swagger_definition_name"="Write"}
+ * )
  * @ORM\Entity
  */
 class User extends Entity implements UserInterface
 {
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     * @Groups({"user:read", "user:write"})
+     */
+    private $name;
+
     /**
      * @var Collection|AccountMembership[] $accountMemberships Represents account membership, for Users other than the
      *                                                         Account owner.
@@ -68,6 +80,25 @@ class User extends Entity implements UserInterface
     public function eraseCredentials()
     {
 
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return User
+     */
+    public function setName(string $name): User
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**

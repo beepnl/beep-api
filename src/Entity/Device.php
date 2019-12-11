@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -20,10 +21,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * })
  */
-abstract class Device implements IdentifiableInterface
+abstract class Device extends Entity
 {
-    use IdentifiableTrait;
-
     /**
      * @var string $deviceId This is the identifier of the device. This identifier should not change during the lifetime of the device. It may be a string of up to 64 characters long
      * @ORM\Column(type="string", length=64)
@@ -48,9 +47,12 @@ abstract class Device implements IdentifiableInterface
     /**
      * Device constructor.
      * @param string $deviceId
+     * @param UuidInterface|null $id
      */
-    public function __construct(string $deviceId)
+    public function __construct(string $deviceId, UuidInterface $id = null)
     {
+        parent::__construct($id);
+
         $this->deviceId = $deviceId;
     }
 

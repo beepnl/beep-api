@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AccountMembershipRepository")
@@ -35,18 +35,24 @@ class AccountMembership extends Entity
     private $createdAt;
 
     const ROLE_OWNER = 'owner';
+    const ROLE_MANAGER = 'member';
+    const ROLE_MEMBER = 'member';
 
     /**
      * AccountMembership constructor.
      * @param User $user
      * @param Account $account
      * @param string $role
+     * @param UuidInterface|null $id
      */
-    public function __construct(User $user, Account $account, string $role = self::ROLE_OWNER)
+    public function __construct(User $user, Account $account, string $role = self::ROLE_MEMBER, UuidInterface $id = null)
     {
+        parent::__construct($id);
+
         $this->createdAt = DateTimeImmutable::createFromFormat('U', time());
         $this->user = $user;
         $this->account = $account;
+        $this->role = $role;
     }
 
     public function getCreatedAt(): ?DateTimeImmutable

@@ -6,15 +6,24 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"account:read"}, "swagger_definition_name"="Read"},
+ *     denormalizationContext={"groups"={"account:write"}, "swagger_definition_name"="Write"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
  */
 class Account extends Entity
 {
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $name;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Apiary", mappedBy="account")
      * @ApiSubresource
@@ -26,19 +35,36 @@ class Account extends Entity
      */
     private $accountMemberships;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $owner;
-
-    public function __construct(User $owner, UuidInterface $id = null)
+    public function __construct(UuidInterface $id = null)
     {
         parent::__construct($id);
 
         $this->apiaries = new ArrayCollection();
         $this->accountMemberships = new ArrayCollection();
-        $this->owner = $owner;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Account
+     */
+    public function setName(string $name): Account
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getOwners()
+    {
+        return $this->accountMemberships->matching(Criteria::create()->andWhere(Criteria::expr()->eq('role', AccountMembership::ROLE_OWNER)));
     }
 
     /**
@@ -79,17 +105,5 @@ class Account extends Entity
     public function getAccountMemberships(): Collection
     {
         return $this->accountMemberships;
-    }
-
-    public function getOwner(): ?User
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(User $owner): self
-    {
-        $this->owner = $owner;
-
-        return $this;
     }
 }
