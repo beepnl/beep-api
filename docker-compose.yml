@@ -9,6 +9,7 @@ services:
       PHP_IDE_CONFIG: serverName=beep-api
       APP_ENV: dev
       APP_DEBUG: 1
+      SYMFONY_PHPUNIT_VERSION: 8.3
     volumes:
     - .:/srv/api:delegated
 

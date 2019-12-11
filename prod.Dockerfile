@@ -1,4 +1,4 @@
-FROM 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-php-production:b1e31c2 as api-prod
+FROM 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-php-production:639b162 as api-prod
 
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
