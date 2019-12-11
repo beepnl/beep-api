@@ -5,6 +5,7 @@ services:
     build:
       dockerfile: dev.Dockerfile
       target: api-dev
+      context: .
     depends_on:
       - db
     environment:

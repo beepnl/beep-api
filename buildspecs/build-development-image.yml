@@ -16,9 +16,9 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build --file dev.Dockerfile --target api-dev -t $REPOSITORY_URI:latest .
       - docker-compose -f docker-compose.test.yml up
       - docker-compose exec php vendor/bin/simple-phpunit
+      - docker build --file dev.Dockerfile --target api-dev -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
