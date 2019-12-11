@@ -4,35 +4,42 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"sensor:read"}, "swagger_definition_name"="Read"},
+ *     denormalizationContext={"groups"={"sensor:write"}, "swagger_definition_name"="Write"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\SensorRepository")
  */
-class Sensor
+class Sensor implements IdentifiableInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdentifiableTrait;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=128)
+     * @Groups("sensor:read")
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Device", inversedBy="sensors")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"sensor:read", "sensor:write"})
      */
     private $device;
 
-    public function getId(): ?int
+    /**
+     * Sensor constructor.
+     * @param $device
+     */
+    public function __construct(Device $device)
     {
-        return $this->id;
+        $this->device = $device;
     }
+
 
     public function getName(): ?string
     {
@@ -46,15 +53,11 @@ class Sensor
         return $this;
     }
 
-    public function getDevice(): ?Device
+    public function getDevice(): Device
     {
         return $this->device;
     }
 
-    public function setDevice(?Device $device): self
-    {
-        $this->device = $device;
 
-        return $this;
-    }
+
 }

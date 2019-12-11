@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class Device
@@ -21,17 +22,45 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class Device implements IdentifiableInterface
 {
+    use IdentifiableTrait;
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sensor", mappedBy="device", orphanRemoval=true)
+     * @var string $deviceId This is the identifier of the device. This identifier should not change during the lifetime of the device. It may be a string of up to 64 characters long
+     * @ORM\Column(type="string", length=64)
+     * @Groups({"device:read", "device:write"})
+     */
+    private $deviceId;
+    /**
+     * @var Collection|Sensor[]
+     * @ORM\OneToMany(targetEntity="App\Entity\Sensor", mappedBy="device")
+     * @Groups("device:read")
      */
     private $sensors;
 
-    public function __construct()
+    /**
+     * @var Account
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"device:read", "device:write"})
+     */
+    private $account;
+
+    /**
+     * Device constructor.
+     * @param string $deviceId
+     */
+    public function __construct(string $deviceId)
     {
-        $this->sensors = new ArrayCollection();
+        $this->deviceId = $deviceId;
     }
 
-    use IdentifiableTrait;
+    /**
+     * @return string
+     */
+    public function getDeviceId(): string
+    {
+        return $this->deviceId;
+    }
 
     /**
      * @return Collection|Sensor[]
@@ -41,26 +70,28 @@ abstract class Device implements IdentifiableInterface
         return $this->sensors;
     }
 
-    public function addSensor(Sensor $sensor): self
+    /**
+     * @return Account
+     */
+    public function getAccount(): Account
     {
-        if (!$this->sensors->contains($sensor)) {
-            $this->sensors[] = $sensor;
-            $sensor->setDevice($this);
-        }
+        return $this->account;
+    }
+
+    /**
+     * @param Account $account
+     * @return Device
+     */
+    public function setAccount(Account $account): Device
+    {
+        $this->account = $account;
 
         return $this;
     }
 
-    public function removeSensor(Sensor $sensor): self
-    {
-        if ($this->sensors->contains($sensor)) {
-            $this->sensors->removeElement($sensor);
-            // set the owning side to null (unless already changed)
-            if ($sensor->getDevice() === $this) {
-                $sensor->setDevice(null);
-            }
-        }
 
-        return $this;
-    }
+
+
+
+
 }
