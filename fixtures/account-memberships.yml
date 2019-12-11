@@ -1,0 +1,3 @@
+App\Entity\AccountMembership:
+  individual_membership:
+    __construct: ['@individual_user', '@individual_account']

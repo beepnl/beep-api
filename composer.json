@@ -1,11 +1,18 @@
 {
     "type": "project",
     "license": "proprietary",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:georgevanvliet/AliceBundle.git"
+        }
+    ],
     "require": {
         "php": "^7.3.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-bcmath": "*",
         "api-platform/api-pack": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^2.0",
         "firebase/php-jwt": "^5.0",
@@ -21,7 +28,9 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "hautelook/alice-bundle": "dev-master",
         "justinrainbow/json-schema": "^5.2",
+        "ramsey/uuid-console": "^1.1",
         "symfony/browser-kit": "4.3.*",
         "symfony/http-client": "4.3.*",
         "symfony/test-pack": "^1.0"

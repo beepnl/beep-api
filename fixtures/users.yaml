@@ -1,0 +1,4 @@
+App\Entity\User:
+    individual_user:
+        name: "Individual User"
+
