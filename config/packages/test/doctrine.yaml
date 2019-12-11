@@ -1,0 +1,3 @@
+doctrine:
+  dbal:
+    dbname: '%env(string:key:dbname:json:DATABASE_CREDENTIALS)%_test'
