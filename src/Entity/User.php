@@ -12,25 +12,19 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class User
+ *
+ * The id of this class is set to the "sub" property of the Cognito User that this User is associated with. This property
+ * is immutable. When a "sub" is encountered in a JWT token during authentication, and no User is known for that "sub",
+ * a new User is created with that "sub".
+ *
  * @package App\Entity
  * @author George van Vliet
  *
  * @ApiResource
  * @ORM\Entity
  */
-class User implements UserInterface, IdentifiableInterface
+class User extends Entity implements UserInterface
 {
-    use IdentifiableTrait;
-
-    /**
-     * @var string $sub The sub property of the Cognito User that this User is associated with. This property
-     *                  is immutable. When a "sub" is encountered in a JWT token during authentication,
-     *                  and no User is known for that "sub", a new User is created with that "sub".
-     *
-     * @ORM\Column(type="uuid", nullable=false)
-     */
-    private $sub;
-
     /**
      * @var Collection|AccountMembership[] $accountMemberships Represents account membership, for Users other than the
      *                                                         Account owner.
@@ -39,14 +33,18 @@ class User implements UserInterface, IdentifiableInterface
     private $accountMemberships;
 
     /**
-     * @param UuidInterface $sub The user id as used by AWS Cognito AKA sub(ject) in JWT spec.
+     * @param UuidInterface $id The user id as used by AWS Cognito AKA sub(ject) in JWT spec.
      */
-    public function __construct(UuidInterface $sub)
+    public function __construct(UuidInterface $id = null)
     {
+        parent::__construct($id);
+
         $this->accountMemberships = new ArrayCollection();
-        $this->sub = $sub;
     }
 
+    /**
+     * @return string[]
+     */
     public function getRoles()
     {
         return ['ROLE_USER'];
@@ -62,9 +60,9 @@ class User implements UserInterface, IdentifiableInterface
         return null;
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
-        return $this->id;
+        return $this->getId()->toString();
     }
 
     public function eraseCredentials()

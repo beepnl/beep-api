@@ -7,15 +7,14 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
  */
-class Account implements IdentifiableInterface
+class Account extends Entity
 {
-    use IdentifiableTrait;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Apiary", mappedBy="account")
      * @ApiSubresource
@@ -33,8 +32,10 @@ class Account implements IdentifiableInterface
      */
     private $owner;
 
-    public function __construct(User $owner)
+    public function __construct(User $owner, UuidInterface $id = null)
     {
+        parent::__construct($id);
+
         $this->apiaries = new ArrayCollection();
         $this->accountMemberships = new ArrayCollection();
         $this->owner = $owner;

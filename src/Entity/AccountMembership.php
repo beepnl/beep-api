@@ -10,10 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\AccountMembershipRepository")
  *
  */
-class AccountMembership implements IdentifiableInterface
+class AccountMembership extends Entity
 {
-    use IdentifiableTrait;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="accountMemberships")
      * @ORM\JoinColumn(nullable=false)

@@ -77,10 +77,11 @@ class CognitoAuthenticator extends AbstractGuardAuthenticator
         try {
             $token = JWT::decode($token, $this->cognitoJwks->getKeys(), ['RS256']);
             $subject = $token->sub;
-            $sub = Uuid::fromString($subject);
-            $user = $this->entityManager->getRepository(User::class)->findOneBy(['sub' => $sub]);
+            $id = Uuid::fromString($subject);
+            $user = $this->entityManager->getRepository(User::class)->find($id);
             if (!$user) {
-                $user = $this->createAndPersistUserAccount($sub);
+
+                $user = $this->createAndPersistUserAccount($id);
             }
 
             return $user;
