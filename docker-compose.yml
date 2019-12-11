@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   php:
-    image: 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-php-development:b1e31c2
+    image: 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-php-development:639b162
     depends_on:
     - db
     environment:
