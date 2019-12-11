@@ -16,7 +16,7 @@ phases:
       - echo Tests started on `date`
       - ls -lha
       - TEST_IMAGE_URI=$(jq -r '.ImageURI' $CODEBUILD_SRC_DIR_TestImageArtifact/imageDetail.json)
-      - docker run -i $TEST_IMAGE_URI php bin/phpunit
+      - docker run -i $TEST_IMAGE_URI php bin/simplephpunit
   post_build:
     commands:
       - echo Build completed on `date`
