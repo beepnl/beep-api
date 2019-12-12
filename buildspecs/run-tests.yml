@@ -16,7 +16,9 @@ phases:
       - echo Tests started on `date`
       - ls -lha
       - IMAGE_URI=$(jq -r '.ImageURI' $CODEBUILD_SRC_DIR_DevelopmentImageArtifact/imageDetail.json)
-      - docker-compose -f docker-compose.test.yml run php vendor/bin/simple-phpunit
+      - |
+        docker-compose -f docker-compose.test.yml exec php bin/console doctrine:migrations:migrate --no-interaction --env=test --quiet && \
+        docker-compose -f docker-compose.test.yml exec php vendor/bin/simple-phpunit
       - run -i $TEST_IMAGE_URI php bin/simplephpunit
   post_build:
     commands:
