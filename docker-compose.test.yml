@@ -2,10 +2,7 @@ version: '3.4'
 
 services:
   php:
-    build:
-      dockerfile: dev.Dockerfile
-      target: api-dev
-      context: .
+    image: ${IMAGE_URI}
     depends_on:
       - db
     environment:
@@ -15,11 +12,9 @@ services:
       SYMFONY_PHPUNIT_VERSION: 8.3
 
   nginx:
-    image: 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-nginx-development:36cee69
+    image: 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-nginx-development:latest
     depends_on:
       - php
-    volumes:
-      - ./public:/srv/api/public:delegated
     ports:
       - 80:80
 
