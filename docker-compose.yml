@@ -4,29 +4,29 @@ services:
   php:
     image: 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-php-development:b1e31c2
     depends_on:
-    - db
+      - db
     environment:
       PHP_IDE_CONFIG: serverName=beep-api
       APP_ENV: dev
       APP_DEBUG: 1
       SYMFONY_PHPUNIT_VERSION: 8.3
     volumes:
-    - .:/srv/api:delegated
+      - .:/srv/api:delegated
 
   nginx:
     image: 038855593698.dkr.ecr.eu-west-1.amazonaws.com/beep-nginx-development:36cee69
     depends_on:
-    - php
+      - php
     volumes:
-    - ./public:/srv/api/public:delegated
+      - ./public:/srv/api/public:delegated
     ports:
-    - 80:80
+      - 80:80
 
   db:
     image: mysql:5.7
     environment:
-    - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
     volumes:
-    - /Users/George/Development/databases/beep-api:/var/lib/mysql
+      - /Users/George/Development/databases/beep-api:/var/lib/mysql
     ports:
-    - 3306:3306
+      - 3306:3306
