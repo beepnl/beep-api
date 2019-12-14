@@ -81,7 +81,6 @@ class CognitoAuthenticator extends AbstractGuardAuthenticator
             $id = Uuid::fromString($subject);
             $user = $this->entityManager->getRepository(User::class)->find($id);
             if (!$user) {
-
                 $user = $this->createAndPersistUserAccount($id);
             }
 
