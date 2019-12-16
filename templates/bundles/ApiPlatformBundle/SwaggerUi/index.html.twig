@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% if title %}{{ title }} - {% endif %}API Platform</title>
+    <title>{{ title }}</title>
 
     {% block stylesheet %}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700">
@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="{{ asset('bundles/apiplatform/style.css') }}">
     {% endblock %}
 
-    {% set oauth_data = {'oauth': swagger_data.oauth|merge({'redirectUrl' : absolute_url('bundles/apiplatform/swagger-ui/oauth2-redirect.html') })} %}
+    {% set oauth_data = {'oauth': swagger_data.oauth|merge({'redirectUrl' : url('swagger_redirect') })} %}
     {# json_encode(65) is for JSON_UNESCAPED_SLASHES|JSON_HEX_TAG to avoid JS XSS #}
     <script id="swagger-data" type="application/json">{{ swagger_data|merge(oauth_data)|json_encode(65)|raw }}</script>
 </head>

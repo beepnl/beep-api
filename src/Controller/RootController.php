@@ -54,7 +54,7 @@ class RootController
     }
 
     /**
-     * @Route("/bundles/apiplatform/swagger-ui/oauth2-redirect.html")
+     * @Route("/bundles/apiplatform/swagger-ui/oauth2-redirect.html", methods={"GET"}, name="swagger_redirect")
      *
      * This route only works in production.
      */
