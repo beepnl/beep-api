@@ -14,7 +14,7 @@ COPY config config/
 COPY public public/
 COPY src src/
 COPY templates templates/
-COPY .env ./
+COPY .env .env
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
