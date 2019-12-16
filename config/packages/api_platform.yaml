@@ -1,5 +1,5 @@
 api_platform:
-    title: Beep
+    title: Beep API
     show_webby: false
     version: 0.1.0
     formats:
