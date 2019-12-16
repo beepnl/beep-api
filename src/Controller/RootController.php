@@ -52,4 +52,13 @@ class RootController
         }
         return new Response($content);
     }
+
+    /**
+     * @Route("/bundles/apiplatform/swagger-ui/oauth2-redirect.html")
+     *
+     * This route only works in production.
+     */
+    public function OAuth2Redirect() {
+        return new Response(file_get_contents('https://assets.stichtingbeep.nl/bundles/apiplatform/swagger-ui/oauth2-redirect.html'));
+    }
 }
