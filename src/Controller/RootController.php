@@ -52,12 +52,4 @@ class RootController
         }
         return new Response($content);
     }
-
-    /**
-     * @Route("/oauth2-redirect.html", methods={"GET"})
-     */
-    public function swaggerUiOAuth2Redirect()
-    {
-        return new Response($this->twig->render('oauth2_redirect.html.twig'));
-    }
 }
